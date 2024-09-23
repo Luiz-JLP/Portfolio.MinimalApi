@@ -1,0 +1,9 @@
+﻿namespace Domain
+{
+    public class Login
+    {
+        public string Email { get; set; } = default!;
+
+        public string Perfil { get; set; } = default!;
+    }
+}
