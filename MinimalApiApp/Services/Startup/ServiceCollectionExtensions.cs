@@ -1,11 +1,11 @@
-﻿using Services;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Services.Abstractions;
 
-namespace MinimalApi.Extensions
+namespace Services.Startup
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection ConfigureDependencyInjection(this IServiceCollection services)
+        public static IServiceCollection AddServiceDependency(this IServiceCollection services)
         {
             services.AddSingleton<ILoginService, LoginService>();
 
