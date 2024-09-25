@@ -1,10 +1,17 @@
-﻿namespace MinimalApi.Extensions
+﻿using Domain;
+using Services.Abstractions;
+
+namespace MinimalApi.Extensions
 {
     public static class WebApplicationExtensions
     {
-        public static WebApplication AddControllers(this WebApplication app)
+        public static WebApplication AddRouteEndpoints(this WebApplication app)
         {
-            
+            app.MapPost("/login", (Login login, ILoginService service) =>
+            {
+                var result = service.Logar(login);
+                return result ? Results.Ok("Login realizado com sucesso.") : Results.Unauthorized();
+            });
 
             return app;
         }
