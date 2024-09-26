@@ -13,6 +13,6 @@ public class LoginService(IAdministratorsService service) : ILoginService
         if (administrator is null)
             return false;
 
-        return PasswordHasher.Verify(login.Senha, administrator.Password);
+        return PasswordHasher.Verify(login.Password, administrator.Password);
     }
 }

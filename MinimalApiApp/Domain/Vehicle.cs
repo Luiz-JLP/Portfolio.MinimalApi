@@ -3,20 +3,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities;
 
-public class Administrator
+public class Vehicle
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     [Required]
-    [StringLength(255)]
-    public string Email { get; set; } = default!;
+    [StringLength(50)]
+    public string Name { get; set; } = default!;
 
     [Required]
-    [StringLength(150)]
-    public string Password { get; set; } = default!;
+    [StringLength(50)]
+    public string Brand { get; set; } = default!;
 
-    [StringLength(10)]
-    public string Profile { get; set; } = default!;
+    [Required]
+    public int Year { get; set; } = default!;
 }

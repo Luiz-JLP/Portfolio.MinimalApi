@@ -16,6 +16,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddRepositoryDependency(this IServiceCollection services)
     {
         services.AddScoped<IAdministratorsRepository, AdministratorsRepository>();
+        services.AddScoped<IVehiclesRepository, VehiclesRepository>();
 
         return services;
     }
