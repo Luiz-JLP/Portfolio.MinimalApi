@@ -1,9 +1,8 @@
 ﻿using Entities;
 
-namespace Services.Abstractions
+namespace Services.Abstractions;
+
+public interface ILoginService
 {
-    public interface ILoginService
-    {
-        bool Logar(Login login);
-    }
+    bool Logar(Login login);
 }

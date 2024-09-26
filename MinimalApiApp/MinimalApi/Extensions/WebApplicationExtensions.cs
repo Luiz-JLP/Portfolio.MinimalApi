@@ -13,6 +13,19 @@ namespace MinimalApi.Extensions
                 return result ? Results.Ok("Login realizado com sucesso.") : Results.Unauthorized();
             });
 
+            app.MapGet("/administrators", (IAdministratorsService service) =>
+            {
+                try
+                {
+                    var result = service.GetAdministrators();
+                    return result.Any() ? Results.Ok(result) : Results.NoContent();
+                }
+                catch (Exception ex)
+                {
+                    return Results.BadRequest(ex);
+                }
+            });
+
             return app;
         }
     }

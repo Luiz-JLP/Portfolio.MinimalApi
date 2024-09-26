@@ -1,13 +1,12 @@
 ﻿using Entities;
 using Services.Abstractions;
 
-namespace Services
+namespace Services;
+
+public class LoginService : ILoginService
 {
-    public class LoginService : ILoginService
+    public bool Logar(Login login)
     {
-        public bool Logar(Login login)
-        {
-            return login.Email == "adm@teste.com" && login.Senha == "123456";
-        }
+        return login.Email == "adm@teste.com" && login.Senha == "123456";
     }
 }
