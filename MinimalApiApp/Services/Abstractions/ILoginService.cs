@@ -1,4 +1,4 @@
-﻿using Domain;
+﻿using Entities;
 
 namespace Services.Abstractions
 {

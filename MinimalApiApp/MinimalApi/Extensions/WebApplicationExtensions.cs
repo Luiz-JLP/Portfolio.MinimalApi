@@ -1,4 +1,4 @@
-﻿using Domain;
+﻿using Entities;
 using Services.Abstractions;
 
 namespace MinimalApi.Extensions
