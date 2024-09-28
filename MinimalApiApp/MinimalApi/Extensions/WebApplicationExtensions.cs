@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.AspNetCore.Mvc;
 using Services.Abstractions;
 
 namespace MinimalApi.Extensions;
@@ -26,7 +27,7 @@ public static class WebApplicationExtensions
             }
         });
 
-        app.MapGet("/vehicle", (Vehicle vehicle, IVehiclesService service) =>
+        app.MapGet("/vehicle", (IVehiclesService service) =>
         {
             try
             {
@@ -58,6 +59,45 @@ public static class WebApplicationExtensions
             {
                 var result = service.Get(brand);
                 return result is not null ? Results.Ok(result) : Results.NoContent();
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest(ex);
+            }
+        });
+
+        app.MapPost("/vehicle", ([FromBody] Vehicle vehicle, IVehiclesService service) =>
+        {
+            try
+            {
+                var result = service.Create(vehicle);
+                return result is not null ? Results.Ok(result) : Results.NoContent();
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest(ex);
+            }
+        });
+
+        app.MapPut("/vehicle", ([FromBody] Vehicle vehicle, IVehiclesService service) =>
+        {
+            try
+            {
+                var result = service.Update(vehicle);
+                return result is not null ? Results.Ok(result) : Results.NotFound();
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest(ex);
+            }
+        });
+
+        app.MapDelete("/vehicle", ([FromBody] Vehicle vehicle, IVehiclesService service) =>
+        {
+            try
+            {
+                var result = service.Delete(vehicle);
+                return result is not null ? Results.Ok(result) : Results.NotFound();
             }
             catch (Exception ex)
             {
