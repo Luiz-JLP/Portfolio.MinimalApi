@@ -14,7 +14,5 @@ public interface IVehiclesService
 
     IEnumerable<Vehicle> Get(string brand);
 
-    Vehicle? Get(string name, string brand);
-
     Vehicle Update(Vehicle vehicle);
 }

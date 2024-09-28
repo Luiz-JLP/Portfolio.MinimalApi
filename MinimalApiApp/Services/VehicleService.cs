@@ -31,11 +31,6 @@ public class VehicleService(IVehiclesRepository repository) : IVehiclesService
         return repository.Get(brand);
     }
 
-    public Vehicle? Get(string name, string brand)
-    {
-        return repository.Get(name, brand);
-    }
-
     public Vehicle Update(Vehicle vehicle)
     {
         return repository.Update(vehicle);
