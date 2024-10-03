@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.EntityFrameworkCore;
 using Repositories.Abstractions;
 using Repositories.Context;
 
@@ -6,44 +7,44 @@ namespace Repositories;
 
 public class VehiclesRepository(InMemoryContext context) : IVehiclesRepository
 {
-    public Vehicle Create(Vehicle vehicle)
+    public async Task<Vehicle> CreateAsync(Vehicle vehicle)
     {
         var newVehicle = context.Vehicles.Add(vehicle);
-        context.SaveChangesAsync();
+        await context.SaveChangesAsync();
         return newVehicle.Entity;
     }
 
-    public IEnumerable<Vehicle> Get()
+    public async Task<IEnumerable<Vehicle>> ReadAsync()
     {
-        return [.. context.Vehicles];
+        return await context.Vehicles.ToListAsync();
     }
 
-    public IEnumerable<Vehicle> Get(string brand)
+    public async Task<IEnumerable<Vehicle>> ReadAsync(string brand)
     {
-        return [.. context.Vehicles.Where(x => x.Brand.Equals(brand))];
+        return await context.Vehicles.Where(x => x.Brand.Equals(brand)).ToListAsync();
     }
 
-    public Vehicle? Get(int id)
+    public async Task<Vehicle?> ReadAsync(int id)
     {
-        return context.Vehicles.SingleOrDefault(x => x.Id == id);
+        return await context.Vehicles.SingleOrDefaultAsync(x => x.Id == id);
     }
 
-    public Vehicle? Get(string name, string brand)
+    public async Task<Vehicle?> ReadAsync(string name, string brand)
     {
-        return context.Vehicles.SingleOrDefault(x => x.Name.Equals(name) && x.Brand.Equals(brand));
+        return await context.Vehicles.SingleOrDefaultAsync(x => x.Name.Equals(name) && x.Brand.Equals(brand));
     }
 
-    public Vehicle Update(Vehicle vehicle)
+    public async Task<Vehicle> UpdateAsync(Vehicle vehicle)
     {
         var vehicleUpdated = context.Vehicles.Update(vehicle);
-        context.SaveChangesAsync();
+        await context.SaveChangesAsync();
         return vehicleUpdated.Entity;
     }
 
-    public Vehicle Delete(Vehicle vehicle)
+    public async Task<Vehicle> DeleteAsync(Vehicle vehicle)
     {
         var vehicleUpdated = context.Vehicles.Remove(vehicle);
-        context.SaveChangesAsync();
+        await context.SaveChangesAsync();
         return vehicleUpdated.Entity;
     }
 }

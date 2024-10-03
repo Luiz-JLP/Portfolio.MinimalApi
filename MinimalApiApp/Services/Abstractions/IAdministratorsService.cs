@@ -4,7 +4,9 @@ namespace Services.Abstractions;
 
 public interface IAdministratorsService
 {
-    Administrator? GetAdministrator(string email);
+    Task<Administrator> CreateAsync(Administrator administrator);
 
-    IEnumerable<Administrator> GetAdministrators();
+    Task<IEnumerable<Administrator>> ReadAsync();
+
+    Task<Administrator?> ReadAsync(string email);
 }

@@ -6,9 +6,9 @@ namespace Services;
 
 public class LoginService(IAdministratorsService service) : ILoginService
 {
-    public bool Logar(Login login)
+    public async Task<bool> LogonAsync(Login login)
     {
-        var administrator = service.GetAdministrator(login.Email);
+        var administrator = await service.ReadAsync(login.Email);
 
         if (administrator is null)
             return false;

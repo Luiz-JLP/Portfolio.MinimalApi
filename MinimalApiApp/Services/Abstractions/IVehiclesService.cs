@@ -4,15 +4,17 @@ namespace Services.Abstractions;
 
 public interface IVehiclesService
 {
-    Vehicle Create(Vehicle vehicle);
+    Task<Vehicle> CreateAsync(Vehicle vehicle);
 
-    Vehicle Delete(Vehicle vehicle);
+    Task<IEnumerable<Vehicle>> ReadAsync();
 
-    IEnumerable<Vehicle> Get();
+    Task<IEnumerable<Vehicle>> ReadAsync(string brand);
 
-    Vehicle? Get(int id);
+    Task<Vehicle?> ReadAsync(int id);
 
-    IEnumerable<Vehicle> Get(string brand);
+    Task<Vehicle?> ReadAsync(string name, string brand);
 
-    Vehicle Update(Vehicle vehicle);
+    Task<Vehicle> UpdateAsync(Vehicle vehicle);
+
+    Task<Vehicle> DeleteAsync(Vehicle vehicle);
 }

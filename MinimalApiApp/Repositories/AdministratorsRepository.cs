@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.EntityFrameworkCore;
 using Repositories.Abstractions;
 using Repositories.Context;
 
@@ -6,13 +7,26 @@ namespace Repositories;
 
 public class AdministratorsRepository(InMemoryContext context) : IAdministratorsRepository
 {
-    public Administrator? GetAdministrator(string email)
+
+    public async Task<Administrator> CreateAsync(Administrator administrator)
     {
-        return context.Administrators.Where(x => x.Email.Equals(email)).FirstOrDefault();
+        var newAdministrator = context.Administrators.Add(administrator);
+        await context.SaveChangesAsync();
+        return newAdministrator.Entity;
     }
 
-    public IEnumerable<Administrator> GetAdministrators()
+    public async Task<IEnumerable<Administrator>> ReadAsync()
     {
-        return [.. context.Administrators];
+        return await context.Administrators.ToListAsync();
+    }
+
+    public async Task<Administrator?> ReadAsync(string email)
+    {
+        return await context.Administrators.SingleOrDefaultAsync(x => x.Email.Equals(email));
+    }
+
+    public async Task<bool> VerifyAsync(string email)
+    {
+        return await context.Administrators.AllAsync(x => x.Email.Equals(email));
     }
 }

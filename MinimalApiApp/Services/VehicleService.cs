@@ -6,33 +6,38 @@ namespace Services;
 
 public class VehicleService(IVehiclesRepository repository) : IVehiclesService
 {
-    public Vehicle Create(Vehicle vehicle)
+    public async Task<Vehicle> CreateAsync(Vehicle vehicle)
     {
-        return repository.Create(vehicle);
+        return await repository.CreateAsync(vehicle);
     }
 
-    public Vehicle Delete(Vehicle vehicle)
+    public async Task<IEnumerable<Vehicle>> ReadAsync()
     {
-        return repository.Delete(vehicle);
+        return await repository.ReadAsync();
     }
 
-    public IEnumerable<Vehicle> Get()
+    public async Task<IEnumerable<Vehicle>> ReadAsync(string brand)
     {
-        return repository.Get();
+        return await repository.ReadAsync(brand);
     }
 
-    public Vehicle? Get(int id)
+    public async Task<Vehicle?> ReadAsync(int id)
     {
-        return repository.Get(id);
+        return await repository.ReadAsync(id);
     }
 
-    public IEnumerable<Vehicle> Get(string brand)
+    public async Task<Vehicle?> ReadAsync(string name, string brand)
     {
-        return repository.Get(brand);
+        return await repository.ReadAsync(name, brand);
     }
 
-    public Vehicle Update(Vehicle vehicle)
+    public async Task<Vehicle> UpdateAsync(Vehicle vehicle)
     {
-        return repository.Update(vehicle);
+        return await repository.UpdateAsync(vehicle);
+    }
+
+    public async Task<Vehicle> DeleteAsync(Vehicle vehicle)
+    {
+        return await repository.DeleteAsync(vehicle);
     }
 }

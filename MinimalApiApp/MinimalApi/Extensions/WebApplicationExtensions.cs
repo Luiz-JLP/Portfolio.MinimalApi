@@ -8,17 +8,17 @@ public static class WebApplicationExtensions
 {
     public static WebApplication AddRouteEndpoints(this WebApplication app)
     {
-        app.MapPost("/login", (Login login, ILoginService service) =>
+        app.MapPost("/login", async (Login login, ILoginService service) =>
         {
-            var result = service.Logar(login);
+            var result = await service.LogonAsync(login);
             return result ? Results.Ok("Login realizado com sucesso.") : Results.Unauthorized();
         }).WithTags("Login");
 
-        app.MapGet("/administrators", (IAdministratorsService service) =>
+        app.MapGet("/administrators", async (IAdministratorsService service) =>
         {
             try
             {
-                var result = service.GetAdministrators();
+                var result = await service.ReadAsync();
                 return result.Any() ? Results.Ok(result) : Results.NoContent();
             }
             catch (Exception ex)
@@ -27,11 +27,24 @@ public static class WebApplicationExtensions
             }
         }).WithTags("Administrators");
 
-        app.MapGet("/vehicle", (IVehiclesService service) =>
+        app.MapPost("/administrators", async ([FromBody] Administrator administrator, IAdministratorsService service) =>
         {
             try
             {
-                var result = service.Get();
+                var result = await service.CreateAsync(administrator);
+                return result is not null ? Results.Ok(result) : Results.NoContent();
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest(ex);
+            }
+        }).WithTags("Administrators");
+
+        app.MapGet("/vehicle", async (IVehiclesService service) =>
+        {
+            try
+            {
+                var result = await service.ReadAsync();
                 return result.Any() ? Results.Ok(result) : Results.NoContent();
             }
             catch (Exception ex)
@@ -40,11 +53,11 @@ public static class WebApplicationExtensions
             }
         }).WithTags("Vehicles"); 
         
-        app.MapGet("/vehicle/id/{id}", (int id, IVehiclesService service) =>
+        app.MapGet("/vehicle/id/{id}", async (int id, IVehiclesService service) =>
         {
             try
             {
-                var result = service.Get(id);
+                var result = await service.ReadAsync(id);
                 return result is not null ? Results.Ok(result) : Results.NoContent();
             }
             catch (Exception ex)
@@ -53,11 +66,11 @@ public static class WebApplicationExtensions
             }
         }).WithTags("Vehicles"); 
         
-        app.MapGet("/vehicle/brand/{brand}", (string brand, IVehiclesService service) =>
+        app.MapGet("/vehicle/brand/{brand}", async (string brand, IVehiclesService service) =>
         {
             try
             {
-                var result = service.Get(brand);
+                var result = await service.ReadAsync(brand);
                 return result is not null ? Results.Ok(result) : Results.NoContent();
             }
             catch (Exception ex)
@@ -66,11 +79,11 @@ public static class WebApplicationExtensions
             }
         }).WithTags("Vehicles");
 
-        app.MapPost("/vehicle", ([FromBody] Vehicle vehicle, IVehiclesService service) =>
+        app.MapPost("/vehicle", async ([FromBody] Vehicle vehicle, IVehiclesService service) =>
         {
             try
             {
-                var result = service.Create(vehicle);
+                var result = await service.CreateAsync(vehicle);
                 return result is not null ? Results.Ok(result) : Results.NoContent();
             }
             catch (Exception ex)
@@ -79,11 +92,11 @@ public static class WebApplicationExtensions
             }
         }).WithTags("Vehicles");
 
-        app.MapPut("/vehicle", ([FromBody] Vehicle vehicle, IVehiclesService service) =>
+        app.MapPut("/vehicle", async ([FromBody] Vehicle vehicle, IVehiclesService service) =>
         {
             try
             {
-                var result = service.Update(vehicle);
+                var result = await service.UpdateAsync(vehicle);
                 return result is not null ? Results.Ok(result) : Results.NotFound();
             }
             catch (Exception ex)
@@ -92,11 +105,11 @@ public static class WebApplicationExtensions
             }
         }).WithTags("Vehicles");
 
-        app.MapDelete("/vehicle", ([FromBody] Vehicle vehicle, IVehiclesService service) =>
+        app.MapDelete("/vehicle", async ([FromBody] Vehicle vehicle, IVehiclesService service) =>
         {
             try
             {
-                var result = service.Delete(vehicle);
+                var result = await service.DeleteAsync(vehicle);
                 return result is not null ? Results.Ok(result) : Results.NotFound();
             }
             catch (Exception ex)
