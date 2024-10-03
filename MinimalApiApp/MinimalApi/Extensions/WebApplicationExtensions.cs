@@ -12,7 +12,7 @@ public static class WebApplicationExtensions
         {
             var result = service.Logar(login);
             return result ? Results.Ok("Login realizado com sucesso.") : Results.Unauthorized();
-        });
+        }).WithTags("Login");
 
         app.MapGet("/administrators", (IAdministratorsService service) =>
         {
@@ -25,7 +25,7 @@ public static class WebApplicationExtensions
             {
                 return Results.BadRequest(ex);
             }
-        });
+        }).WithTags("Administrators");
 
         app.MapGet("/vehicle", (IVehiclesService service) =>
         {
@@ -38,7 +38,7 @@ public static class WebApplicationExtensions
             {
                 return Results.BadRequest(ex);
             }
-        }); 
+        }).WithTags("Vehicles"); 
         
         app.MapGet("/vehicle/id/{id}", (int id, IVehiclesService service) =>
         {
@@ -51,7 +51,7 @@ public static class WebApplicationExtensions
             {
                 return Results.BadRequest(ex);
             }
-        }); 
+        }).WithTags("Vehicles"); 
         
         app.MapGet("/vehicle/brand/{brand}", (string brand, IVehiclesService service) =>
         {
@@ -64,7 +64,7 @@ public static class WebApplicationExtensions
             {
                 return Results.BadRequest(ex);
             }
-        });
+        }).WithTags("Vehicles");
 
         app.MapPost("/vehicle", ([FromBody] Vehicle vehicle, IVehiclesService service) =>
         {
@@ -77,7 +77,7 @@ public static class WebApplicationExtensions
             {
                 return Results.BadRequest(ex);
             }
-        });
+        }).WithTags("Vehicles");
 
         app.MapPut("/vehicle", ([FromBody] Vehicle vehicle, IVehiclesService service) =>
         {
@@ -90,7 +90,7 @@ public static class WebApplicationExtensions
             {
                 return Results.BadRequest(ex);
             }
-        });
+        }).WithTags("Vehicles");
 
         app.MapDelete("/vehicle", ([FromBody] Vehicle vehicle, IVehiclesService service) =>
         {
@@ -103,7 +103,7 @@ public static class WebApplicationExtensions
             {
                 return Results.BadRequest(ex);
             }
-        });
+        }).WithTags("Vehicles");
 
         return app;
     }
